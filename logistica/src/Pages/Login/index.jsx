@@ -1,55 +1,42 @@
 import React, { useState } from 'react';
-import './cadastro.css'
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import './login.css'
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth } from '../../service/firebaseConfig';
 import { useNavigate } from 'react-router-dom';
-import { MdAccountCircle, MdEmail, MdLock } from "react-icons/md"
+import { MdEmail, MdLock } from "react-icons/md"
 import imgLogin from "../../assets/login.png"
 import { HiEye, HiEyeOff } from "react-icons/hi"
-import { Link } from 'react-router-dom'
-import { db, collection, addDoc } from "../../service/firebaseConfig"; 
-import 'firebase/firestore'
+import { Link } from 'react-router-dom';
 
-function CadastrarUsuario() {
 
+
+function LoginUsuario() {
    const [email, setEmail] = useState("")
    const [senha, setsenha] = useState("")
-   const [Nome, setNome] = useState("")
    const [show, setShow] = useState(false)
-   const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth);
+   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
    const navigate = useNavigate();
-   // const usersCollectionRef = collection(db, "users");
-
 
    const handleClick = (e) => {
       e.preventDefault()
       setShow(!show);
    }
 
-   const Cadastro = async (e) => {
-
+   const handleLogin = async (e) => {
       e.preventDefault();
-      createUserWithEmailAndPassword(email, senha)
+      signInWithEmailAndPassword(email, senha)
          .then((userCredential) => {
             const user = userCredential.user;
-            // return
-            // firebase.firestore().collection('usuarios').addDoc(user.uid).set({
-            //    nome: Nome,
-            //    email: email,
-            //    senha: senha,
-            //    id: user.uid
-            // });
-            // alert('Usuário cadastrado com sucesso!');
-            window.location.href = './blog.html';
+            console.log("Usuário logado:", user);
+            window.location.href = '/blog.html';
          }).catch((error) => {
-            if (error.message === 'auth/email-already-in-use') {
-               alert('E-mail já está em uso.');
+            if (error.message == "Cannot read properties of undefined (reading 'user')") {
+               alert('email ou senha incorreto')
             } else {
-               alert('Erro ao criar usuário: ' + error.message);
+               alert('Erro ao fazer login: ' + error.message);
             }
          });
-   }
-
+   };
 
    return (
       <div className="login">
@@ -65,18 +52,8 @@ function CadastrarUsuario() {
                <h1>Acessar App</h1>
                <form>
 
-               {/* <div className="login-loginInputNome">
-               <MdAccountCircle />
-                  <input
-                     type="text"
-                     placeholder="Digite seu nome"
-                     value={Nome}
-                     onChange={e => setNome(e.target.value)}
-                  />
-               </div> */}
-
                <div className="login-loginInputEmail">
-               <MdEmail />
+                  <MdEmail />
                   <input
                      type="email"
                      placeholder="Digite um email"
@@ -108,18 +85,15 @@ function CadastrarUsuario() {
                   </div>
                </div>
 
-               <button onClick={Cadastro}>
+               <button onClick={handleLogin}>
+                  Entrar
+               </button>
+
+               <h4>Não tenho conta!</h4>
+
+               <Link to={'../Cadastro'}><button type="submit">
                   Cadastrar
-               </button>
-
-               <h4>Já possui uma conta? </h4>
-
-               <Link to={'/'}>
-               <button>
-                  Login
-               </button>
-               </Link>
-
+               </button></Link>
                </form>
 
             </div>
@@ -129,4 +103,4 @@ function CadastrarUsuario() {
    )
 }
 
-export default CadastrarUsuario;
+export default LoginUsuario;

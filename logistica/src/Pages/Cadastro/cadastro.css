@@ -49,6 +49,19 @@
   background-color: #1A1A1D;
   border-radius: 5px;
   padding: 3px;
+  margin: 5px;
+  width: 98%;
+  height: 50px;
+}
+
+.login-loginInputNome {
+  display: flex;
+  align-items: center;
+  color: gray;
+  background-color: #1A1A1D;
+  border-radius: 5px;
+  padding: 3px;
+  margin: 5px;
   width: 98%;
   height: 50px;
 }
@@ -58,7 +71,24 @@
   font-size: 25px;
 }
 
+.login-loginInputNome svg {
+  margin-left: 10px;
+  font-size: 25px;
+}
+
+
 .login-loginInputEmail input {
+  background: transparent;
+  width: 100%;
+  outline-width: 0;
+  color: #E1E1E6;
+  border: none;
+  font-size: 17px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.login-loginInputNome input {
   background: transparent;
   width: 100%;
   outline-width: 0;
